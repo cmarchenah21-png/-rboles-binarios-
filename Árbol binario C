@@ -1,0 +1,79 @@
+class NodoC {
+    char valor;
+    NodoC izquierda;
+    NodoC derecha;
+    public NodoC(char valor) {
+        this.valor = valor;
+        this.izquierda = null;
+        this.derecha = null;
+    }
+}
+
+class ArbolBSTC {
+    NodoC raiz;
+    public ArbolBSTC() {
+        raiz = null;
+    }
+    
+    public void insertar(char valor) {
+        raiz = insertarRec(raiz, valor);
+    }
+    
+    private NodoC insertarRec(NodoC nodo, char valor) {
+        if (nodo == null) {
+            nodo = new NodoC(valor);
+            return nodo;
+        }
+        if (valor < nodo.valor) {
+            nodo.izquierda = insertarRec(nodo.izquierda, valor);
+        } else if (valor > nodo.valor) {
+            nodo.derecha = insertarRec(nodo.derecha, valor);
+        }
+        return nodo;
+    }
+    
+    public void inOrden(NodoC nodo) {
+        if (nodo != null) {
+            inOrden(nodo.izquierda);
+            System.out.print(nodo.valor + " ");
+            inOrden(nodo.derecha);
+        }
+    }
+    
+    public boolean buscar(char clave) {
+        NodoC actual = raiz;
+        System.out.print("Recorrido para buscar " + clave + ": ");
+        while (actual != null) {
+            System.out.print(actual.valor + " ");
+            if (clave == actual.valor) {
+                System.out.println("-> Encontrado!");
+                return true;
+            } else if (clave < actual.valor) {
+                actual = actual.izquierda;
+            } else {
+                actual = actual.derecha;
+            }
+        }
+        System.out.println("-> NO encontrado.");
+        return false;
+    }
+}
+
+public class ArbolC {
+    public static void main(String[] args) {
+        char C[] = {'A','Y','E','F','G','X','W','U','Z','R','B'};
+        ArbolBSTC arbolC = new ArbolBSTC();
+        
+        for (char x : C) {
+            arbolC.insertar(x);
+        }
+        
+        arbolC.buscar('U');
+        arbolC.buscar('V');
+        arbolC.buscar('W');
+        
+        System.out.println("\nArbol C en recorrido InOrden:");
+        arbolC.inOrden(arbolC.raiz);
+        System.out.println();
+    }
+}
