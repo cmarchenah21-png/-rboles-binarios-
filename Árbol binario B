@@ -1,0 +1,79 @@
+class NodoB {
+    int valor;
+    NodoB izquierda;
+    NodoB derecha;
+    public NodoB(int valor) {
+        this.valor = valor;
+        this.izquierda = null;
+        this.derecha = null;
+    }
+}
+
+class ArbolBSTB {
+    NodoB raiz;
+    public ArbolBSTB() {
+        raiz = null;
+    }
+    
+    public void insertar(int valor) {
+        raiz = insertarRec(raiz, valor);
+    }
+    
+    private NodoB insertarRec(NodoB nodo, int valor) {
+        if (nodo == null) {
+            nodo = new NodoB(valor);
+            return nodo;
+        }
+        if (valor < nodo.valor) {
+            nodo.izquierda = insertarRec(nodo.izquierda, valor);
+        } else if (valor > nodo.valor) {
+            nodo.derecha = insertarRec(nodo.derecha, valor);
+        }
+        return nodo;
+    }
+    
+    public boolean buscar(int clave) {
+        NodoB actual = raiz;
+        System.out.print("Recorrido para buscar " + clave + ": ");
+        while (actual != null) {
+            System.out.print(actual.valor + " ");
+            if (clave == actual.valor) {
+                System.out.println("→ Encontrado!");
+                return true;
+            } else if (clave < actual.valor) {
+                actual = actual.izquierda;
+            } else {
+                actual = actual.derecha;
+            }
+        }
+        System.out.println("→ NO encontrado.");
+        return false;
+    }
+    
+    public void inOrden(NodoB nodo) {
+        if (nodo != null) {
+            inOrden(nodo.izquierda);
+            System.out.print(nodo.valor + " ");
+            inOrden(nodo.derecha);
+        }
+    }
+}
+
+public class ArbolB {
+    public static void main(String[] args) {
+        int B[] = {32, 67, 43, 25, 52, 56, 78, 64, 23, 67};
+        ArbolBSTB arbolB = new ArbolBSTB();
+        
+        for (int x : B) {
+            arbolB.insertar(x);
+        }
+        
+        arbolB.buscar(23);
+        arbolB.buscar(24);
+        arbolB.buscar(25);
+        
+        System.out.println("\nÁrbol B en recorrido InOrden:");
+        arbolB.inOrden(arbolB.raiz);
+        System.out.println();
+    }
+}
