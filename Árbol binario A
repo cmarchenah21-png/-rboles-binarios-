@@ -1,0 +1,81 @@
+class NodoA {
+    int valor;
+    NodoA izquierda;
+    NodoA derecha;
+    public NodoA(int valor) {
+        this.valor = valor;
+        this.izquierda = null;
+        this.derecha = null;
+    }
+}
+
+class ArbolBSTA {
+    NodoA raiz;
+    public ArbolBSTA() {
+        raiz = null;
+    }
+    
+    public void insertar(int valor) {
+        raiz = insertarRec(raiz, valor);
+    }
+    
+    private NodoA insertarRec(NodoA nodo, int valor) {
+        if (nodo == null) {
+            nodo = new NodoA(valor);
+            return nodo;
+        }
+        if (valor < nodo.valor) {
+            nodo.izquierda = insertarRec(nodo.izquierda, valor);
+        } else if (valor > nodo.valor) {
+            nodo.derecha = insertarRec(nodo.derecha, valor);
+        }
+        return nodo;
+    }
+    
+    public boolean buscar(int clave) {
+        NodoA actual = raiz;
+        System.out.print("Recorrido para buscar " + clave + ": ");
+        while (actual != null) {
+            System.out.print(actual.valor + " ");
+            if (clave == actual.valor) {
+                System.out.println("-> Encontrado!");
+                return true;
+            } else if (clave < actual.valor) {
+                actual = actual.izquierda;
+            } else {
+                actual = actual.derecha;
+            }
+        }
+        System.out.println("-> NO encontrado.");
+        return false;
+    }
+    
+    public void inOrden(NodoA nodo) {
+        if (nodo != null) {
+            inOrden(nodo.izquierda);
+            System.out.print(nodo.valor + " ");
+            inOrden(nodo.derecha);
+        }
+    }
+}
+
+public class ArbolA {
+    public static void main(String[] args) {
+        int A[] = {10, 43, 24, -10, 54, 0, 23, 82, 43};
+        ArbolBSTA arbol = new ArbolBSTA();
+        
+        for (int x : A) {
+            arbol.insertar(x);
+        }
+        
+        int nuevasClaves[] = {-5, -3, 22, 44};
+        for (int x : nuevasClaves) {
+            arbol.insertar(x);
+        }
+        
+        arbol.buscar(22);
+        arbol.buscar(0);
+        arbol.buscar(24);
+        arbol.buscar(23);
+    }
+}
